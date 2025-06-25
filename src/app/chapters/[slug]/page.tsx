@@ -1,14 +1,20 @@
 import { getChapter, getAllChapters } from '@/lib/markdown';
 import { notFound } from 'next/navigation';
 
+// This function needs to return [{ params: { slug: string } }]
 export async function generateStaticParams() {
     const chapters = getAllChapters();
     return chapters.map((chapter: any) => ({
-        slug: chapter.slug,
+        params: { slug: chapter.slug },
     }));
 }
 
-export default async function ChapterPage({ params }: { params: { slug: string } }) {
+// Correctly typed params
+export default async function ChapterPage({
+    params,
+}: {
+    params: { slug: string };
+}) {
     const chapter = await getChapter(params.slug);
 
     if (!chapter) return notFound();
