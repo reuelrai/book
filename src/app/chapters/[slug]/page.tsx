@@ -1,15 +1,16 @@
+// app/chapters/[slug]/page.tsx
 import { getChapter, getAllChapters } from '@/lib/markdown';
 import { notFound } from 'next/navigation';
 
-// This function needs to return [{ params: { slug: string } }]
-export async function generateStaticParams() {
+export async function generateStaticParams(): Promise<
+    { params: { slug: string } }[]
+> {
     const chapters = getAllChapters();
     return chapters.map((chapter: any) => ({
         params: { slug: chapter.slug },
     }));
 }
 
-// Correctly typed params
 export default async function ChapterPage({
     params,
 }: {
